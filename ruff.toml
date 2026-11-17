@@ -1,0 +1,37 @@
+# Ruff configuration for the AI Code Reviewer platform.
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I", "B", "SIM", "RUF", "PLW", "G", "TRY", "PIE", "FURB"]
+ignore = [
+    "UP006",   # List[...] / Dict[...] kept for readability and 3.9 compatibility
+    "UP035",   # typing.List imports are intentional
+    "UP045",   # Optional[X] kept instead of X | None
+    "UP007",
+    "BLE001",  # broad excepts are deliberate in defensive/agent-isolation paths
+    "RUF100",  # unused noqa comments are harmless
+    "TRY003",  # long exception messages are user facing here
+    "TRY400",
+    "E501",    # long lines are allowed up to 120 by the formatter
+    "TRY300",  # try/except/else splitting is a matter of taste here
+    "TRY301",  # raising inside try blocks keeps the happy path linear
+    "SIM103",  # explicit if/return reads better than a bare return expression
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["PLW1510", "S101", "TRY301", "B011"]
+"database/models.py" = ["RUF012"]
+"app/application.py" = ["G004", "TRY300", "BLE001"]
+"database/repository.py" = ["G004", "TRY300", "BLE001"]
+"services/ingestion.py" = ["G004", "TRY300", "TRY301", "BLE001", "SIM105", "RUF013"]
+"utils/*" = ["G004", "W293", "TRY300", "SIM103", "SIM110", "PIE810", "RUF013", "BLE001"]
+"ui/widgets/projects.py" = ["G004", "BLE001", "TRY300"]
+"ui/widgets/project_overview.py" = ["G004", "BLE001"]
+"ui/widgets/dashboard.py" = ["G004", "BLE001"]
+"ui/widgets/code_viewer.py" = ["G004", "BLE001", "TRY300"]
+"ui/widgets/code_explorer.py" = ["G004", "BLE001"]
+"ui/dialogs/import_wizard.py" = ["G004", "BLE001", "TRY300", "TRY301", "G201"]
+"core/logger.py" = ["G004", "PIE790"]
+"analyzer/ast_parser.py" = ["G004", "BLE001"]
+"analyzer/import_parser.py" = ["W293"]
